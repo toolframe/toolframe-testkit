@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "toolframe-testkit-fixture"
+version = "0.1.0"
+description = "Small independently packaged Toolframe records plugin for testkit integration checks"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.14"
+dependencies = ["toolframe-sdk==0.3.0"]
+
+[project.entry-points."toolframe.plugins"]
+fixture-records = "fixture_records.definition:plugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fixture_records"]
