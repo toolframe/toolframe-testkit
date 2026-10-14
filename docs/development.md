@@ -72,7 +72,7 @@ Cordis, and SDK wheels are in the wheelhouse:
 
 ```sh
 uv pip install --python .venv/bin/python --find-links .local/wheelhouse \
-  toolframe-core==0.6.0
+  toolframe-core==0.6.2
 ```
 
 ```sh
