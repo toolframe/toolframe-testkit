@@ -10,18 +10,15 @@ application, or load a pytest plugin automatically.
 
 ## Quick start
 
-Build or obtain the testkit and SDK wheels, then install the checker and opt-in
-pytest integration from a local wheelhouse:
+Install the checker and opt-in pytest integration from PyPI:
 
 ```sh
-python -m pip install --find-links ./wheelhouse \
-  './wheelhouse/toolframe_testkit-0.1.0-py3-none-any.whl[pytest]'
+python -m pip install 'toolframe-testkit[pytest]==0.1.0'
 ```
 
-The wheelhouse may contain wheels built from the sibling repositories or wheels
-provided by the project; dependencies may also be downloaded from the package
-index when allowed by the environment. See [development and verification](docs/development.md)
-for the source-build commands.
+The SDK is installed as a dependency. See
+[development and verification](docs/development.md) for source builds and local
+wheelhouse checks.
 
 Check a public SDK definition in a unit test:
 
@@ -79,11 +76,11 @@ examples. Example checks do not prove general JSON Schema implication or Core
 authorization behavior. MCP resource schemas may intentionally narrow a service
 schema.
 
-The installed-Core scenario exercises the Core 0.6 public readiness, status,
-plugin lifecycle, service admission, authorization, schema rejection, and data
-retention boundaries. The support evidence so far is limited to a macOS ARM64
-environment with an installed Python Core command. Binary launchers, MCP
-providers, Dashboard flows, federated or password-grant auth, PostgreSQL,
-Windows, and Linux remain untested. The testkit does not guarantee redaction of
-arbitrary secrets emitted by a plugin; it redacts its owned management token and
-common bearer/token query forms.
+The installed-Core harness covers public readiness, status, plugin lifecycle,
+service admission, authorization, schema rejection, and retained data. Browser
+interaction, provider-specific protocols, and external service provisioning need
+separate acceptance checks. The harness runs local processes; it does not manage
+remote deployments. It redacts its owned management token and common bearer/token
+query forms, but cannot guarantee redaction of arbitrary plugin output.
+
+For release validation and Trusted Publisher setup, see [releasing](docs/releasing.md).
