@@ -116,6 +116,7 @@ def main():
         )
         run("uv", "pip", "check", "--python", python)
         run(python, "-I", "-m", "ruff", "check", "src", "tests", "scripts")
+        (ROOT / "build").mkdir(exist_ok=True)
         run(
             python,
             "-I",

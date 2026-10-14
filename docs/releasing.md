@@ -1,6 +1,6 @@
 # Releasing toolframe-testkit
 
-The distribution name is `toolframe-testkit`; its current version is `0.1.1`.
+The distribution name is `toolframe-testkit`; its current version is `0.1.2`.
 Release tags must exactly match `v<project.version>`. Ordinary CI never uploads
 packages. The manual `publish.yml` workflow reruns validation and publishes only
 artifacts produced by that successful run.
@@ -49,7 +49,7 @@ sibling owner where the workflow exposes that variable.
 ## Publish and verify
 
 After the release commit and matching tag are available remotely, manually run
-`publish.yml` at `v0.1.1`, selecting `testpypi` first and then `pypi`.
+`publish.yml` at `v0.1.2`, selecting `testpypi` first and then `pypi`.
 A branch or mismatched tag is rejected. Downloaded files are the artifacts from
 that run; the publishing job does not rebuild them. Published files cannot be
 replaced under the same version.
@@ -58,7 +58,7 @@ After PyPI publication, verify a clean installation:
 
 ```sh
 uv venv --python 3.14.7 build/consumer
-uv pip install --python build/consumer/bin/python 'toolframe-testkit==0.1.1'
+uv pip install --python build/consumer/bin/python 'toolframe-testkit==0.1.2'
 uv pip check --python build/consumer/bin/python
 ```
 
