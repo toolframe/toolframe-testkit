@@ -7,7 +7,7 @@ import pytest
 from toolframe_testkit import ApplicationHarness, HarnessTimeout
 
 HTTP_COMMAND = r"""
-import http.server, json, pathlib, socket, sys, tomllib
+import http.server, json, pathlib, socket, socketserver, sys, tomllib
 home = pathlib.Path(sys.argv[sys.argv.index("--home") + 1])
 command = sys.argv[sys.argv.index("--json") + 1]
 if command == "init":
@@ -52,7 +52,13 @@ else:
         def do_POST(self):
             self.rfile.read(int(self.headers.get("Content-Length", "0")))
             self.emit(202, {"id": "test-operation", "status": "queued"})
-    http.server.HTTPServer(("127.0.0.1", port), Handler).serve_forever()
+    class LoopbackServer(http.server.HTTPServer):
+        def server_bind(self):
+            # HTTPServer's reverse DNS lookup is unrelated to these HTTP tests.
+            socketserver.TCPServer.server_bind(self)
+            self.server_name = "localhost"
+            self.server_port = self.server_address[1]
+    LoopbackServer(("127.0.0.1", port), Handler).serve_forever()
 """
 
 
@@ -61,7 +67,7 @@ def fake_http_application(tmp_path):
     with ApplicationHarness(
         [sys.executable, "-c", HTTP_COMMAND],
         output_directory=tmp_path / "build",
-        startup_timeout=2,
+        startup_timeout=15,
         poll_interval=0.01,
     ) as app:
         yield app

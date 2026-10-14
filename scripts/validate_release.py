@@ -122,6 +122,8 @@ def main():
             "-m",
             "pytest",
             "-q",
+            "--basetemp",
+            ROOT / "build/release-tests",
             "-p",
             "no:cacheprovider",
         )

@@ -3,7 +3,7 @@
 Toolframe testkit is a Python library for checking a plugin's public SDK contract
 and exercising an installed Toolframe Core application through its public CLI and
 HTTP APIs. It is a developer test dependency, not a Core runtime plugin. Version
-0.1.0 supports Python 3.14 or newer and pins `toolframe-sdk==0.3.0`.
+0.1.1 supports Python 3.14 or newer and pins `toolframe-sdk==0.3.0`.
 
 The package is Apache-2.0 licensed. It does not install Core, choose a global
 application, or load a pytest plugin automatically.
@@ -13,7 +13,7 @@ application, or load a pytest plugin automatically.
 Install the checker and opt-in pytest integration from PyPI:
 
 ```sh
-python -m pip install 'toolframe-testkit[pytest]==0.1.0'
+python -m pip install 'toolframe-testkit[pytest]==0.1.1'
 ```
 
 The SDK is installed as a dependency. See

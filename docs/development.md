@@ -103,7 +103,7 @@ find-links directory, and output directory:
 
 ```sh
 .venv/bin/python scripts/smoke_wheel.py \
-  --wheel dist/toolframe_testkit-0.1.0-py3-none-any.whl \
+  --wheel dist/toolframe_testkit-0.1.1-py3-none-any.whl \
   --fixture-wheel .local/wheelhouse/toolframe_testkit_fixture-0.1.0-py3-none-any.whl \
   --find-links .local/wheelhouse \
   --output build/wheel-smoke

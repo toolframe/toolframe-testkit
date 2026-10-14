@@ -475,7 +475,7 @@ dev = [
 
 [[package]]
 name = "toolframe-testkit"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
