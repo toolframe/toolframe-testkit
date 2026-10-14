@@ -10,8 +10,8 @@ application, or load a pytest plugin automatically.
 
 ## Quick start
 
-The package is not published yet. Build or obtain the testkit and SDK wheels,
-then install the checker and opt-in pytest integration from a local wheelhouse:
+Build or obtain the testkit and SDK wheels, then install the checker and opt-in
+pytest integration from a local wheelhouse:
 
 ```sh
 python -m pip install --find-links ./wheelhouse \
@@ -21,8 +21,7 @@ python -m pip install --find-links ./wheelhouse \
 The wheelhouse may contain wheels built from the sibling repositories or wheels
 provided by the project; dependencies may also be downloaded from the package
 index when allowed by the environment. See [development and verification](docs/development.md)
-for the source-build commands. Once a release is published, the equivalent
-install can use the published package index.
+for the source-build commands.
 
 Check a public SDK definition in a unit test:
 
