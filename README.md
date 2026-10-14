@@ -84,3 +84,5 @@ remote deployments. It redacts its owned management token and common bearer/toke
 query forms, but cannot guarantee redaction of arbitrary plugin output.
 
 For release validation and Trusted Publisher setup, see [releasing](docs/releasing.md).
+
+For development hooks and contribution rules, see [Contributing](CONTRIBUTING.md).
