@@ -1,6 +1,6 @@
 # Releasing toolframe-testkit
 
-The distribution name is `toolframe-testkit`; its current version is `0.1.2`.
+The distribution name is `toolframe-testkit`. The version is defined in `pyproject.toml`.
 Release tags must exactly match `v<project.version>`. Ordinary CI never uploads
 packages. The manual `publish.yml` workflow reruns validation and publishes only
 artifacts produced by that successful run.
