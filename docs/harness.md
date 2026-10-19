@@ -14,9 +14,9 @@ from toolframe_testkit import ApplicationHarness
 with ApplicationHarness(
     "/path/to/toolframe-core",
     output_directory=Path("build/installed-core"),
-    find_links=[Path(".local/wheelhouse")],
+    find_links=[Path("build/wheelhouse")],
 ) as app:
-    app.install_plugin(".local/wheelhouse/my_plugin-0.1.0-py3-none-any.whl")
+    app.install_plugin("build/wheelhouse/my_plugin-0.1.0-py3-none-any.whl")
     app.wait_for_plugin("my-plugin")
     response = app.service_call(
         "my-plugin", "my.records", "list", {}, entrance="public"

@@ -66,7 +66,7 @@ def main():
         assert document["Requires-Python"] == ">=3.14"
         assert document["License-Expression"] == "Apache-2.0"
         requirements = document.get_all("Requires-Dist") or []
-        assert any(item.startswith("toolframe-sdk==0.3.0") for item in requirements)
+        assert any(item.startswith("toolframe-sdk==0.4.0") for item in requirements)
         assert not any(" @ " in item or "file:" in item for item in requirements)
         assert not any(
             "fixture_records/" in name or name.startswith("tests/") for name in names

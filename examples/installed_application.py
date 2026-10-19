@@ -5,7 +5,7 @@ Example::
     python examples/installed_application.py \
       --core-command /path/to/toolframe-core \
       --wheelhouse .local/wheelhouse \
-      --storage-wheel /tmp/toolframe_storage_sqlite.whl \
+      --storage-wheel /tmp/toolframe_sql_sqlite.whl \
       --fixture-wheel /tmp/toolframe_testkit_fixture.whl \
       --output build/installed-application
 
@@ -21,7 +21,7 @@ from pathlib import Path
 
 from toolframe_testkit import ApplicationHarness
 
-_STORAGE_PLUGIN = "storage-sqlite"
+_STORAGE_PLUGIN = "sql-sqlite"
 _FIXTURE_PLUGIN = "fixture-records"
 _SERVICE = "fixture-records.records"
 

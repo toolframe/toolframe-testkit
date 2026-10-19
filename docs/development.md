@@ -1,10 +1,9 @@
 # Development and verification
 
 The testkit repository is independently buildable. Runtime dependencies are
-`toolframe-sdk==0.3.0`, `httpx`, `tomlkit`, `psutil`, `pydantic`, and `jsonschema`;
+`toolframe-sdk==0.4.0`, `httpx`, `tomlkit`, `psutil`, `pydantic`, and `jsonschema`;
 pytest is available
-through the `[pytest]` extra. Python 3.14 or newer is required. No release is
-published yet, so consumer-style installation uses a local wheelhouse.
+through the `[pytest]` extra. Python 3.14 or newer is required. Consumer-style installation can use PyPI or an explicitly built local wheelhouse.
 
 ## Local environment
 
@@ -13,7 +12,7 @@ install the package with the development tools. The install must use the
 wheelhouse so uv does not select an unrelated source checkout:
 
 ```sh
-mkdir -p .local/wheelhouse
+mkdir -p build/wheelhouse
 ```
 
 When testing sibling development checkouts, build their wheels into a local,
@@ -21,15 +20,15 @@ ignored wheelhouse. These commands are for a sibling checkout layout and are
 deliberately explicit about `--no-sources`:
 
 ```sh
-uv build --no-sources --wheel --out-dir .local/wheelhouse \
+uv build --no-sources --wheel --out-dir build/wheelhouse \
   ../toolframe-sdk/.worktrees/plugin-services
-uv build --no-sources --wheel --out-dir .local/wheelhouse \
+uv build --no-sources --wheel --out-dir build/wheelhouse \
   ../fastapi-cordis
-uv build --no-sources --wheel --out-dir .local/wheelhouse \
-  ../toolframe-core/.worktrees/plugin-services
-uv build --no-sources --wheel --out-dir .local/wheelhouse \
-  ../toolframe-storage-sqlite
-uv build --no-sources --wheel --out-dir .local/wheelhouse \
+uv build --no-sources --wheel --out-dir build/wheelhouse \
+  ../toolframe-core
+uv build --no-sources --wheel --out-dir build/wheelhouse \
+  ../toolframe-sql-sqlite
+uv build --no-sources --wheel --out-dir build/wheelhouse \
   tests/assets/service-plugin
 ```
 
@@ -39,7 +38,7 @@ SDK wheel, install the development environment:
 
 ```sh
 uv venv .venv
-uv pip install --python .venv/bin/python --find-links .local/wheelhouse \
+uv pip install --python .venv/bin/python --find-links build/wheelhouse \
   -e '.[pytest]' pytest ruff build hatchling
 ```
 
@@ -71,16 +70,16 @@ Install the matching Core command into the same environment after its Core,
 Cordis, and SDK wheels are in the wheelhouse:
 
 ```sh
-uv pip install --python .venv/bin/python --find-links .local/wheelhouse \
-  toolframe-core==0.6.2
+uv pip install --python .venv/bin/python --find-links build/wheelhouse \
+  toolframe-core==0.7.0
 ```
 
 ```sh
-export TOOLFRAME_TESTKIT_STORAGE_WHEEL="$PWD/.local/wheelhouse/toolframe_storage_sqlite-0.3.0-py3-none-any.whl"
-export TOOLFRAME_TESTKIT_FIXTURE_WHEEL="$PWD/.local/wheelhouse/toolframe_testkit_fixture-0.1.0-py3-none-any.whl"
+export TOOLFRAME_TESTKIT_STORAGE_WHEEL="$PWD/build/wheelhouse/toolframe_sql_sqlite-0.4.0-py3-none-any.whl"
+export TOOLFRAME_TESTKIT_FIXTURE_WHEEL="$PWD/build/wheelhouse/toolframe_testkit_fixture-0.1.0-py3-none-any.whl"
 .venv/bin/python -m pytest tests/test_installed_core.py \
   --toolframe-core-command "$PWD/.venv/bin/toolframe-core" \
-  --toolframe-find-links "$PWD/.local/wheelhouse" \
+  --toolframe-find-links "$PWD/build/wheelhouse" \
   --toolframe-output-directory build/installed-core
 ```
 
@@ -104,8 +103,8 @@ find-links directory, and output directory:
 ```sh
 .venv/bin/python scripts/smoke_wheel.py \
   --wheel dist/toolframe_testkit-0.1.2-py3-none-any.whl \
-  --fixture-wheel .local/wheelhouse/toolframe_testkit_fixture-0.1.0-py3-none-any.whl \
-  --find-links .local/wheelhouse \
+  --fixture-wheel build/wheelhouse/toolframe_testkit_fixture-0.1.0-py3-none-any.whl \
+  --find-links build/wheelhouse \
   --output build/wheel-smoke
 ```
 

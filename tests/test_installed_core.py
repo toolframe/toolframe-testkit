@@ -17,7 +17,7 @@ pytestmark = pytest.mark.installed_core
 
 _STORAGE_WHEEL_ENV = "TOOLFRAME_TESTKIT_STORAGE_WHEEL"
 _FIXTURE_WHEEL_ENV = "TOOLFRAME_TESTKIT_FIXTURE_WHEEL"
-_STORAGE_PLUGIN = "storage-sqlite"
+_STORAGE_PLUGIN = "sql-sqlite"
 _FIXTURE_PLUGIN = "fixture-records"
 _SERVICE = "fixture-records.records"
 
