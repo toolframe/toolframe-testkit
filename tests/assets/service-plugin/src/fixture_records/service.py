@@ -32,7 +32,7 @@ class Records(Plugin):
 
     async def append(self, body: object) -> dict:
         body = _validate_body(body)
-        storage = self.context.storage()
+        storage = self.context.sql()
         async with storage.transaction() as transaction:
             result = await transaction.execute_returning(
                 "INSERT INTO records(body) VALUES (?) RETURNING id",
@@ -62,7 +62,7 @@ class Records(Plugin):
 
     async def list_records(self, limit: object = 20) -> dict:
         limit = _validate_limit(limit)
-        records = await self.context.storage().query(
+        records = await self.context.sql().query(
             "SELECT id, body FROM records ORDER BY id DESC LIMIT ?",
             (limit,),
         )
@@ -90,5 +90,5 @@ class Records(Plugin):
         raise PluginError("method_not_found", f"Unknown method {service}/{method}")
 
     async def health(self) -> dict:
-        await self.context.storage().query("SELECT id FROM records LIMIT 1")
+        await self.context.sql().query("SELECT id FROM records LIMIT 1")
         return {"runtime": "ready", "business": "ready"}
