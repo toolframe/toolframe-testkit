@@ -21,7 +21,7 @@ from toolframe_sdk import load_object
 from toolframe_testkit import ResourceExample, ServiceExample, check_definition
 
 distribution = metadata.distribution("toolframe-testkit")
-assert distribution.version == "0.1.0"
+assert distribution.version == sys.argv[1]
 assert importlib.util.find_spec("toolframe_core") is None
 assert importlib.util.find_spec("pytest") is None
 assert "pytest" not in sys.modules
@@ -66,7 +66,7 @@ def main():
         assert document["Requires-Python"] == ">=3.14"
         assert document["License-Expression"] == "Apache-2.0"
         requirements = document.get_all("Requires-Dist") or []
-        assert any(item.startswith("toolframe-sdk==0.4.0") for item in requirements)
+        assert any(item.startswith("toolframe-sdk<1,>=0.4.0") for item in requirements)
         assert not any(" @ " in item or "file:" in item for item in requirements)
         assert not any(
             "fixture_records/" in name or name.startswith("tests/") for name in names
@@ -109,7 +109,7 @@ def main():
             timeout=180,
         )
     result = subprocess.run(
-        [str(python), "-I", "-c", CHECK],
+        [str(python), "-I", "-c", CHECK, document["Version"]],
         cwd=output,
         env=environment,
         capture_output=True,
