@@ -1,7 +1,7 @@
 # Development and verification
 
 The testkit repository is independently buildable. Runtime dependencies are
-`toolframe-sdk==0.4.0`, `httpx`, `tomlkit`, `psutil`, `pydantic`, and `jsonschema`;
+`toolframe-sdk>=0.4.0,<1`, `httpx`, `tomlkit`, `psutil`, `pydantic`, and `jsonschema`;
 pytest is available
 through the `[pytest]` extra. Python 3.14 or newer is required. Consumer-style installation can use PyPI or an explicitly built local wheelhouse.
 
