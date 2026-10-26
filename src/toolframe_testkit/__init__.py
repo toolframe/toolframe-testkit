@@ -10,7 +10,7 @@ from .contracts import (
 )
 from .harness import ApplicationHarness, CLIResult, HarnessError, HarnessTimeout
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = [
     "ApplicationHarness",
     "CLIResult",
