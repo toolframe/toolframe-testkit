@@ -1,26 +1,27 @@
-# Toolframe testkit
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme-banner-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme-banner-light.png">
+  <img src="docs/assets/readme-banner-light.png" alt="Toolframe Testkit — Check plugin contracts and test installed Toolframe applications through public CLI and HTTP APIs." width="720">
+</picture>
+</p>
 
-Toolframe testkit is a Python library for checking a plugin's public SDK contract
-and exercising an installed Toolframe Core application through its public CLI and
-HTTP APIs. It is a developer test dependency, not a Core runtime plugin.
-Use Python 3.14 or newer and a compatible SDK satisfying `toolframe-sdk>=0.4.0,<1`.
+# Toolframe Testkit
 
-The package is Apache-2.0 licensed. It does not install Core, choose a global
-application, or load a pytest plugin automatically.
+[![CI on main](https://github.com/toolframe/toolframe-testkit/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/toolframe/toolframe-testkit/actions/workflows/ci.yml?query=branch%3Amain)
+
+Check plugin contracts and test installed Toolframe applications through public CLI and HTTP APIs.
+Use it as a development dependency in your plugin test suite.
 
 ## Quick start
 
-Install the checker and opt-in pytest integration from PyPI:
+Use Python 3.14+ in your plugin's test environment:
 
 ```sh
 python -m pip install 'toolframe-testkit[pytest]==0.2.1'
 ```
 
-The SDK is installed as a dependency. See
-[development and verification](docs/development.md) for source builds and local
-wheelhouse checks.
-
-Check a public SDK definition in a unit test:
+Import your plugin's exported definition and validate it:
 
 ```python
 from toolframe_testkit import check_definition
@@ -31,61 +32,27 @@ def test_plugin_contract():
     check_definition(plugin).assert_valid()
 ```
 
-For installed Core tests, explicitly load the pytest plugin in `conftest.py`:
+Replace `my_plugin.definition` with your package's module, then run `pytest`.
+The SDK is installed as a dependency. For installed-application tests, follow the
+[harness guide](docs/harness.md) and explicitly enable the pytest integration.
 
-```python
-pytest_plugins = ["toolframe_testkit.pytest_plugin"]
-```
+**Scope:** Testkit does not install Core or load a pytest plugin automatically.
+You select the Core command and private test home. Contract checks validate
+definitions and supplied examples; browser flows, provider protocols and external
+services need separate acceptance tests.
 
-Then supply an installed Core command when running the test. The plugin creates a
-new private application home, starts Core on a loopback port, and removes the home
-after the test. A minimal `tests/test_application.py` can check readiness without
-installing a plugin:
+## Guides
 
-```python
-def test_application(toolframe_application):
-    assert toolframe_application.status()["ready"] is True
-```
+| I want to… | Start here |
+| --- | --- |
+| Validate definitions and examples | [Contract checks](docs/contracts.md) |
+| Exercise a running application | [Application harness](docs/harness.md) |
+| See a complete scenario | [Installed-application example](examples/installed_application.py) |
+| Contribute or run checks | [Contributing](CONTRIBUTING.md) · [Verification](docs/development.md) |
+| Publish a package | [Releasing](docs/releasing.md) |
 
-Child output is retained below the selected ignored build directory:
+[Releases](https://github.com/toolframe/toolframe-testkit/releases)
 
-```sh
-pytest tests/test_application.py \
-  --toolframe-core-command "$(command -v toolframe-core)" \
-  --toolframe-output-directory build/installed-core
-```
+## License
 
-See [contract checks](docs/contracts.md) for definition and example validation,
-[the application harness](docs/harness.md) for installed Core testing, and
-[development and verification](docs/development.md) for wheel builds and the
-real-Core fixture run. The complete standalone scenario is in
-[examples/installed_application.py](examples/installed_application.py).
-
-## Support limits
-
-The harness is deliberately explicit: callers choose the installed Core command,
-wheel links, and output directory. It uses public Core CLI and HTTP endpoints and
-does not import Core internals or edit an existing user application. The default
-`local_control=False` exercises Core's normal admission checks; setting it to
-`True` is available only when a test specifically needs local control behavior.
-
-The pytest integration is opt-in through `pytest_plugins` or `pytest -p`; there is
-no `pytest11` auto-entry point. `check_definition` validates the SDK model, target
-references, resource scopes, packaged UTF-8 documents, and supplied concrete
-examples. Example checks do not prove general JSON Schema implication or Core
-authorization behavior. MCP resource schemas may intentionally narrow a service
-schema.
-
-The installed-Core harness covers public readiness, status, plugin lifecycle,
-service admission, authorization, schema rejection, and retained data. Browser
-interaction, provider-specific protocols, and external service provisioning need
-separate acceptance checks. The harness runs local processes; it does not manage
-remote deployments. It redacts its owned management token and common bearer/token
-query forms, but cannot guarantee redaction of arbitrary plugin output.
-
-For release validation and Trusted Publisher setup, see [releasing](docs/releasing.md).
-
-For development hooks and contribution rules, see [Contributing](CONTRIBUTING.md).
-
-Plugin dependencies allow compatible SDK 0.x updates from the declared minimum.
-See the [SDK compatibility policy](https://github.com/toolframe/toolframe-sdk/blob/main/docs/compatibility.md) for API guarantees and minimum/latest verification.
+[Apache 2.0](LICENSE).
